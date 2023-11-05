@@ -4,7 +4,7 @@ const ThreadRepository = require("../../../../Domains/threads/ThreadRepository")
 const AddCommentUseCase = require("../AddCommentUseCase");
 const NewComment = require("../../../../Domains/comments/entities/NewComment");
 
-describe("AddUserUseCase", () => {
+describe("AddCommentUseCase", () => {
   /**
    * Menguji apakah use case mampu mengoskestrasikan langkah demi langkah dengan benar.
    */

@@ -57,17 +57,40 @@ class CommentRepositoryPostgres extends CommentRepository {
     return true;
   }
 
+  // async getCommentsByThreadId(threadId) {
+  //   const query = {
+  //     text: "SELECT c.id, c.content, c.date, c.is_deleted, u.username FROM comments c JOIN users u ON u.id = c.owner WHERE c.thread_id = $1",
+  //     values: [threadId],
+  //   };
+
+  //   const result = await this._pool.query(query);
+
+  //   const comments = [];
+  //   result.rows.forEach((row) => {
+  //     comments.push(new DetailComment(row));
+  //   });
+
+  //   return comments;
+  // }
   async getCommentsByThreadId(threadId) {
     const query = {
-      text: "SELECT c.id, c.content, c.date, c.is_deleted, u.username FROM comments c JOIN users u ON u.id = c.owner WHERE c.thread_id = $1",
+      text: `
+      SELECT c.id, c.content, c.date, c.is_deleted, u.username, COUNT(cl.comment_id) AS like_count
+      FROM comments c 
+      JOIN users u ON u.id = c.owner 
+      LEFT JOIN comment_likes cl ON cl.comment_id = c.id
+      WHERE c.thread_id = $1
+      GROUP BY c.id, u.username
+    `,
       values: [threadId],
     };
 
     const result = await this._pool.query(query);
 
-    const comments = [];
-    result.rows.forEach((row) => {
-      comments.push(new DetailComment(row));
+    const comments = result.rows.map((row) => {
+      const comment = new DetailComment(row);
+      comment.likeCount = row.like_count;
+      return comment;
     });
 
     return comments;
