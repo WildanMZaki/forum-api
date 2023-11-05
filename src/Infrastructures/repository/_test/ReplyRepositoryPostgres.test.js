@@ -193,7 +193,7 @@ describe("ReplyRepositoryPostgres", () => {
       expect(replies).toHaveLength(2);
       replies.forEach((reply) => {
         if (reply.id === "reply-321") {
-          expect(reply.content).toStrictEqual("**komentar telah dihapus**");
+          expect(reply.content).toStrictEqual("**balasan telah dihapus**");
         }
         expect(reply).toHaveProperty("id");
         expect(reply).toHaveProperty("content");
