@@ -22,4 +22,4 @@ jobs:
             sudo git pull origin master
             sudo npm install
             sudo npm run migrate up
-            sudo pm2 restart forum-api
+            pm2 restart forum-api
