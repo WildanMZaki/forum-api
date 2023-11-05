@@ -89,7 +89,7 @@ class CommentRepositoryPostgres extends CommentRepository {
 
     const comments = result.rows.map((row) => {
       const comment = new DetailComment(row);
-      comment.likeCount = row.like_count;
+      comment.likeCount = Number(row.like_count);
       return comment;
     });
 
