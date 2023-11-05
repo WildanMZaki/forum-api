@@ -9,6 +9,7 @@ const authentications = require("../../Interfaces/http/api/authentications");
 const threads = require("../../Interfaces/http/api/threads");
 const comments = require("../../Interfaces/http/api/comments");
 
+const commentReplies = require("../../Interfaces/http/api/comment-replies");
 // Newest In Submission 2
 const commentLikes = require("../../Interfaces/http/api/comment-likes");
 
@@ -61,6 +62,10 @@ const createServer = async (container) => {
     },
     {
       plugin: comments,
+      options: { container },
+    },
+    {
+      plugin: commentReplies,
       options: { container },
     },
     {

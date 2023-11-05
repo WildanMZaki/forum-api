@@ -58,7 +58,7 @@ describe("a DetailReply entities", () => {
     expect(detailReply1.date).toEqual(payload1.date);
 
     expect(detailReply2.id).toEqual(payload2.id);
-    expect(detailReply2.content).toEqual("**komentar telah dihapus**");
+    expect(detailReply2.content).toEqual("**balasan telah dihapus**");
     expect(detailReply2.username).toEqual(payload2.username);
     expect(detailReply2.date).toEqual(payload2.date);
   });
