@@ -6,3 +6,4 @@ coverage
 .env
 key-of-wildan-server.pem
 wildanz_credentials.csv
+postman-testing
