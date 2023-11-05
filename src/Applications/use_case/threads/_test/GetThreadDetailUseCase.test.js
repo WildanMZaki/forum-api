@@ -2,10 +2,7 @@ const UsersTableTestHelper = require("../../../../../tests/UsersTableTestHelper"
 const CommentRepository = require("../../../../Domains/comments/CommentRepository");
 const DetailComment = require("../../../../Domains/comments/entities/DetailComment");
 const ThreadRepository = require("../../../../Domains/threads/ThreadRepository");
-const AddThread = require("../../../../Domains/threads/entities/AddThread");
-const AddedThread = require("../../../../Domains/threads/entities/AddedThread");
 const DetailThread = require("../../../../Domains/threads/entities/DetailThread");
-const AddThreadUseCase = require("../AddThreadUseCase");
 const GetThreadDetailUseCase = require("../GetThreadDetailUseCase");
 
 describe("AddThreadUseCase", () => {

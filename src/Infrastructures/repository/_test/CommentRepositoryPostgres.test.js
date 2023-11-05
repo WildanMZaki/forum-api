@@ -281,6 +281,7 @@ describe("CommentRepositoryPostgres", () => {
         expect(comment).toHaveProperty("content");
         expect(comment).toHaveProperty("username");
         expect(comment).toHaveProperty("date");
+        expect(comment).toHaveProperty("likeCount");
       });
     });
   });
