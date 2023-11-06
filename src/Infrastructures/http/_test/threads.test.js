@@ -224,7 +224,9 @@ describe("/threads endpoint", () => {
       // Arrange
       // eslint-disable-next-line no-undef
       const server = await createServer(container);
-      await server.inject({
+
+      // One commentator comment tester thread
+      const commentatorResp = await server.inject({
         method: "POST",
         url: `/threads/${threadId}/comments`,
         payload: { content: "Hello iam comment your thread sir" },
@@ -232,6 +234,10 @@ describe("/threads endpoint", () => {
           Authorization: `Bearer ${commentatorToken}`, // Sertakan token dalam header Authorization
         },
       });
+      const commentatorComment = JSON.parse(commentatorResp.payload);
+      const commentatorCommentId = commentatorComment.data.addedComment;
+
+      // tester comment his thread
       const commentResp = await server.inject({
         method: "POST",
         url: `/threads/${threadId}/comments`,
@@ -242,10 +248,31 @@ describe("/threads endpoint", () => {
       });
       const commentParsed = JSON.parse(commentResp.payload);
       const { id } = commentParsed.data.addedComment;
+
+      // Hapus comment thread creator (tester)
       await server.inject({
         method: "DELETE",
         url: `/threads/${threadId}/comments/${id}`,
         payload: {},
+        headers: {
+          Authorization: `Bearer ${token}`, // Sertakan token dalam header Authorization
+        },
+      });
+
+      // tester like commentatorComment
+      await server.inject({
+        method: "PUT",
+        url: `/threads/${threadId}/comments/${commentatorCommentId}/likes`,
+        payload: {},
+        headers: {
+          Authorization: `Bearer ${token}`, // Sertakan token dalam header Authorization
+        },
+      });
+      // Tester Reply commentator
+      await server.inject({
+        method: "POST",
+        url: `/threads/${threadId}/comments/${commentatorCommentId}/replies`,
+        payload: { content: "Sure, hello commentator" },
         headers: {
           Authorization: `Bearer ${token}`, // Sertakan token dalam header Authorization
         },
@@ -274,8 +301,13 @@ describe("/threads endpoint", () => {
         expect(comment).toHaveProperty("date");
         expect(comment).toHaveProperty("content");
         expect(comment).toHaveProperty("username");
+        expect(comment).toHaveProperty("likeCount");
         if (comment.username === "tester") {
           expect(comment.content).toStrictEqual("**komentar telah dihapus**");
+        }
+        if (comment.id === commentatorCommentId) {
+          expect(comment.likeCount).toStrictEqual(1);
+          expect(comment.replies).toHaveLength(1);
         }
       });
     });
