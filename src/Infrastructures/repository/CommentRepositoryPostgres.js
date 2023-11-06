@@ -81,6 +81,7 @@ class CommentRepositoryPostgres extends CommentRepository {
       LEFT JOIN comment_likes cl ON cl.comment_id = c.id
       WHERE c.thread_id = $1
       GROUP BY c.id, u.username
+      ORDER BY c.date ASC
     `,
       values: [threadId],
     };
